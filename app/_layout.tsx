@@ -9,7 +9,15 @@ export default function RootLayout() {
     >
       <Stack.Screen 
         name="index"
-        options={{title : "Home"}}
+        options={{
+          headerShown : false,
+        }}
+      />
+      <Stack.Screen 
+        name="onBoardingTwo"
+        options={{
+          headerShown : false
+        }}
       />
     </Stack>
   );

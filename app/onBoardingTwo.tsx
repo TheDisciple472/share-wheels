@@ -5,15 +5,16 @@ import { scale } from "@/theme/scale";
 import { colors } from "@/theme/colors";
 import { FontSize } from "@/theme/font-size";
 import Button from "@/components/Button";
+import { typography } from "@/theme/typography";
 
 export default function Index() {
-  const { whiteCar, logo, overlayBg } = imagesPaths;
+  const { carBg, logo, overlayBg } = imagesPaths;
   const router  = useRouter();
   const goToScreenTwo = () => {
     router.push("/onBoardingTwo");
   }
   return (
-    <ImageBackground style={styles.container} source={whiteCar} resizeMode="cover">
+    <ImageBackground style={styles.container} source={carBg} resizeMode="cover">
       <ImageBackground
         style={styles.overlay}
         source={overlayBg}
@@ -24,11 +25,25 @@ export default function Index() {
             <Image source={logo} style={styles.logo} resizeMode="contain" />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.title}>Welcome To</Text>
-            <Text style={styles.title}>Share-Wheels</Text>
+            <Text style={styles.title}>Lets Start</Text>
+            <Text style={styles.title}>A New Experience</Text>
+            <Text style={styles.title}>With Car Rental</Text>
           </View>
         </View>
+        <View>
+            <View style={styles.infoTextConatiner}>
+                <Text style={styles.infoText}>
+                Discover your next adventure with Share-wheel. 
+            </Text>
+            <Text style={styles.infoText}>
+                we're here to provide you with a seamless car rental experience.
+            </Text>
+            <Text style={styles.infoText}>
+                Let's get started on your journey
+            </Text>
+            </View>
         <Button text="Get Started" buttonStyles={styles.buttonStyle}  onPress={goToScreenTwo}/>
+        </View>
       </ImageBackground>
     </ImageBackground>
   );
@@ -54,7 +69,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: scale(18),
     justifyContent: "space-between",
-    overflow : "hidden"
   },
   title: {
     fontSize: FontSize.FONT_40Px,
@@ -65,5 +79,14 @@ const styles = StyleSheet.create({
   },
   buttonStyle : {
     marginBottom : scale(40)
-  }
+  },
+  infoText : {
+    color : colors.white,
+    fontSize : FontSize.FONT_14Px,
+    fontWeight : "400"
+  },
+  infoTextConatiner :{
+    marginBottom : scale(42)
+  },
+
 });
