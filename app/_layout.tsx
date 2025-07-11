@@ -6,6 +6,7 @@ export default function RootLayout() {
       screenOptions={{
         headerTitleAlign : "center"
       }}
+      // initialRouteName="onBoardingTwo"
     >
       <Stack.Screen 
         name="index"
@@ -15,6 +16,18 @@ export default function RootLayout() {
       />
       <Stack.Screen 
         name="onBoardingTwo"
+        options={{
+          headerShown : false
+        }}
+      />
+      <Stack.Screen 
+        name="signIn"
+        options={{
+          headerShown : false
+        }}
+      />
+      <Stack.Screen 
+        name="signUp"
         options={{
           headerShown : false
         }}

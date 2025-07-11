@@ -1,10 +1,10 @@
-import { ImageBackground, Text, View, StyleSheet, Image } from "react-native";
-import { useRouter } from "expo-router";
 import imagesPaths from "@/assets/imagesPath";
-import { scale } from "@/theme/scale";
+import Button from "@/components/ButtonComponent";
 import { colors } from "@/theme/colors";
 import { FontSize } from "@/theme/font-size";
-import Button from "@/components/Button";
+import { scale } from "@/theme/scale";
+import { useRouter } from "expo-router";
+import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   const { whiteCar, logo, overlayBg } = imagesPaths;

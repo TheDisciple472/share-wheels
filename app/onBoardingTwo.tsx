@@ -1,17 +1,16 @@
-import { ImageBackground, Text, View, StyleSheet, Image } from "react-native";
-import { useRouter } from "expo-router";
 import imagesPaths from "@/assets/imagesPath";
-import { scale } from "@/theme/scale";
+import Button from "@/components/ButtonComponent";
 import { colors } from "@/theme/colors";
 import { FontSize } from "@/theme/font-size";
-import Button from "@/components/Button";
-import { typography } from "@/theme/typography";
+import { scale } from "@/theme/scale";
+import { useRouter } from "expo-router";
+import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
   const { carBg, logo, overlayBg } = imagesPaths;
   const router  = useRouter();
-  const goToScreenTwo = () => {
-    router.push("/onBoardingTwo");
+  const goToSignIn = () => {
+    router.push("/signIn");
   }
   return (
     <ImageBackground style={styles.container} source={carBg} resizeMode="cover">
@@ -42,7 +41,7 @@ export default function Index() {
                 Let's get started on your journey
             </Text>
             </View>
-        <Button text="Get Started" buttonStyles={styles.buttonStyle}  onPress={goToScreenTwo}/>
+        <Button text="Get Started" buttonStyles={styles.buttonStyle}  onPress={goToSignIn}/>
         </View>
       </ImageBackground>
     </ImageBackground>
