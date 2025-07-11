@@ -19,4 +19,10 @@ export const colors = {
   outlineButtonBg : "#EDEDED",
   divider: '#D9D9D9',
   btnBorder: '#D7D7D7',
+  gray: '#767676',
+  star: '#FF8F3A',
+  bgTab: '#21292B',
+  carBg: '#f0f0f0',
+  crossBg: '#141B34',
+
 };

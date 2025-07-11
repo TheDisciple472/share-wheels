@@ -33,11 +33,12 @@ export default function OtpScreen () {
             </Text>
           </View>
           <View style={styles.inputContainer}>
-            <OtpComponent  />
+            <OtpComponent onOTPChange={(e) => console.log(e)
+            } />
           </View>
           {renderMarginTop(28)}
           <ButtonComponent
-            onPress={() => route.push("/")}
+            onPress={() => route.push("/homeScreen")}
             text="Continue"
             textStyles={styles.buttonText}
           />

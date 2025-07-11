@@ -44,6 +44,12 @@ export default function RootLayout() {
           headerShown : false
         }}
       />
+      <Stack.Screen 
+        name="homeScreen"
+        options={{
+          headerShown : false
+        }}
+      />
     </Stack>
   );
 }
