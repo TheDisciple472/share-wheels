@@ -51,7 +51,9 @@ export default function SignIn() {
 
           <Text style={styles.textRemember}>Remember Me</Text>
         </View>
-        <Text>Forgot Password</Text>
+        <Text
+          onPress={()=> route.push("/resetPassword")}
+        >Forgot Password</Text>
       </View>
         <View style={styles.buttonContainer}>
           <ButtonComponent text="Login" textStyles={styles.buttonText} />

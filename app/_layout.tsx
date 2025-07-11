@@ -32,6 +32,18 @@ export default function RootLayout() {
           headerShown : false
         }}
       />
+      <Stack.Screen 
+        name="resetPassword"
+        options={{
+          headerShown : false
+        }}
+      />
+      <Stack.Screen 
+        name="otpScreen"
+        options={{
+          headerShown : false
+        }}
+      />
     </Stack>
   );
 }

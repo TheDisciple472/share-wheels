@@ -40,7 +40,9 @@ export default function SignUp() {
       </View>
       {renderMarginTop(5)}
       <View style={styles.buttonContainer}>
-        <ButtonComponent text="Sign Up" textStyles={styles.buttonText} />
+        <ButtonComponent text="Sign Up" textStyles={styles.buttonText} 
+        onPress={()=> route.push("/resetPassword")}
+        />
         <ButtonComponent
           text="Login"
           buttonStyles={styles.outlineButton}
