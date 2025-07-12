@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingRight: scale(12),
     columnGap: scale(5),
-    height : scale(50)
+    // height : scale(50)
   },
   input: {
     fontSize: FontSize.FONT_17Px,

@@ -34,6 +34,7 @@ export default function CarBrandComponent({
             resizeMode="contain"
             source={tesla}
             style={styles.brandImage}
+            
           />
         </View>
         {/* {renderMarginTop(4)} / */}
@@ -53,7 +54,7 @@ const createStyles = (
       alignItems: "center",
       flexDirection: isHorizontal ? "row" : "column",
       columnGap: isHorizontal ? scale(4) : 0,
-    //   backgroundColor: isSelected ? colors.bgTab : colors.background,
+      backgroundColor: isSelected ? colors.bgTab : colors.background,
     // backgroundColor : "red",
       paddingHorizontal: scale(4),
       paddingVertical: scale(4),

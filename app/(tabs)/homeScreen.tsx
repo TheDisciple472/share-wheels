@@ -1,3 +1,4 @@
+import imagesPaths from "@/assets/imagesPath";
 import CarBrandComponent from "@/components/CarBrandComponent";
 import CarComponent from "@/components/CarComponent";
 import HeaderComponent from "@/components/HeaderComponent";
@@ -7,6 +8,8 @@ import { FontSize } from "@/theme/font-size";
 import { scale } from "@/theme/scale";
 import { typography } from "@/theme/typography";
 import { View, StyleSheet, Text, ScrollView, FlatList } from "react-native";
+
+const { car1, car2, car3, car4 } = imagesPaths;
 
 export default function HomeScreen() {
   return (
@@ -29,12 +32,12 @@ export default function HomeScreen() {
             <Text style={styles.viewAll}>View All</Text>
           </View>
           <View style={styles.flexRow}>
-            <CarComponent />
-            <CarComponent />
+            <CarComponent  imageSource={car1}/>
+            <CarComponent  imageSource={car2}/>
           </View>
           <View style={styles.flexRow}>
-            <CarComponent />
-            <CarComponent />
+            <CarComponent  imageSource={car3}/>
+            <CarComponent imageSource={car4}/>
           </View>
         </View>
       </View>

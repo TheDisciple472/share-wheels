@@ -38,7 +38,7 @@ export default function OtpScreen () {
           </View>
           {renderMarginTop(28)}
           <ButtonComponent
-            onPress={() => route.push("/homeScreen")}
+            onPress={() => route.push("/(tabs)/homeScreen")}
             text="Continue"
             textStyles={styles.buttonText}
           />

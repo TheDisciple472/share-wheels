@@ -8,22 +8,37 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import React from "react";
-import { View, StyleSheet, Image, Text, Pressable } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Image,
+  Text,
+  Pressable,
+  ImageSourcePropType,
+} from "react-native";
 
 type Props = {
   bottomActions?: React.ReactNode;
+  imageSource: ImageSourcePropType;
+  onPress?: () => void;
 };
 
-const { car1 } = imagesPaths;
-
-export default function CarComponent({ bottomActions }: Props) {
+export default function CarComponent({
+  bottomActions,
+  imageSource,
+  onPress,
+}: Props) {
   return (
-    <Pressable style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       <Pressable style={styles.favContainer}>
         <MaterialCommunityIcons name={"cards-heart-outline"} size={scale(18)} />
       </Pressable>
       <View style={styles.carBackground}>
-        <Image source={car1} resizeMode="contain" style={styles.carImage} />
+        <Image
+          source={imageSource}
+          resizeMode="contain"
+          style={styles.carImage}
+        />
       </View>
       <View style={styles.textContainer}>
         {renderMarginBottom(4)}

@@ -45,7 +45,13 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen 
-        name="homeScreen"
+        name="(tabs)"
+        options={{
+          headerShown : false
+        }}
+      />
+      <Stack.Screen 
+        name="carScreen"
         options={{
           headerShown : false
         }}

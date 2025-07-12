@@ -24,5 +24,11 @@ export const colors = {
   bgTab: '#21292B',
   carBg: '#f0f0f0',
   crossBg: '#141B34',
-
+  unFilledStar: '#C5C8D2',
+  visaCard: {
+    primary: '#000000',
+    secondary: '#1c1c1c',
+    gray: '#2e2e2e',
+    gray2: '#3a3a3a',
+  },
 };

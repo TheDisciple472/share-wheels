@@ -192,3 +192,4 @@ const useSignup = (): ISiginUpProps => {
     setIsSecure,
   };
 };
+
