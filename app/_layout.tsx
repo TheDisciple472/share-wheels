@@ -74,6 +74,24 @@ export default function RootLayout() {
           headerShown : false
         }}
       />
+      <Stack.Screen 
+        name="confirmationScreen"
+        options={{
+          headerShown : false
+        }}
+      />
+      <Stack.Screen 
+        name="bookingStatus"
+        options={{
+          headerShown : false
+        }}
+      />
+      <Stack.Screen 
+        name="editProfileScreen"
+        options={{
+          headerShown : false
+        }}
+      />
     </Stack>
   );
 }

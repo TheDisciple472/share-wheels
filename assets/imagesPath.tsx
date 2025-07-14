@@ -6,6 +6,7 @@ const imagesPaths = {
     logoBlack : require("./images/logo_black.png"),
     eye : require("./images/eye.png"),
     person : require("./images/person.png"),
+    success: require("./images/success.png"),
     tesla : require("./images/tesla.png"),
     car1 : require("./images/car1.png"),
     car2 : require("./images/car2.png"),

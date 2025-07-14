@@ -17,6 +17,7 @@ import { navigate } from "expo-router/build/global-state/routing";
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Button, Pressable, ScrollView } from "react-native";
 import VisaCardComponent from "@/components/VisaCardComponent";
+import { router } from "expo-router";
 
 export default function PaymentScreen () {
     const [showPayment, setShowPayment] = useState(false);
@@ -107,7 +108,7 @@ export default function PaymentScreen () {
           />
           {renderMarginBottom(24)}
           <ButtonComponent
-            // onPress={() => navigate('BookingConfirmationScreen')}
+            onPress={()=> router.push("/confirmationScreen")}
             text="Pay Now"
           />
         </View>
