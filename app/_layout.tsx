@@ -92,6 +92,12 @@ export default function RootLayout() {
           headerShown : false
         }}
       />
+      <Stack.Screen 
+        name="chatScreen"
+        options={{
+          headerShown : false
+        }}
+      />
     </Stack>
   );
 }

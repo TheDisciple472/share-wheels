@@ -5,7 +5,7 @@ import { FontSize } from "@/theme/font-size";
 import { scale } from "@/theme/scale";
 import { typography } from "@/theme/typography";
 
-const  {person} = imagesPaths
+const  {person} = imagesPaths;
 
 export default function HeaderActionComponent () {
      return (

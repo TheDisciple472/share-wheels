@@ -20,7 +20,7 @@ const { logoBlack, person } = imagesPaths;
 const goBack = () => {
   router.back();
 };
-export default function Header({ title, hasBack }: Props) {
+export default function Header({ title, hasBack, actionComponent }: Props) {
   return (
     <View style={styles.header}>
       <View style={styles.flexRow}>
@@ -38,6 +38,7 @@ export default function Header({ title, hasBack }: Props) {
             <Text style={styles.titleStyle}>{title}</Text>
           </React.Fragment>
         )}
+        {actionComponent}
       </View>
       {hasBack && <Text style={[styles.titleStyle, styles.t20]}>{title}</Text>}
       <View style={styles.flexRow}>

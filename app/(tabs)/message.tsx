@@ -8,7 +8,8 @@ import { scale } from "@/theme/scale";
 import { typography } from "@/theme/typography";
 import { renderBoderBottom } from "@/utils/ui-utils";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import React, { useState } from "react";
+import { router } from "expo-router";
+import React from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 
 export default function Message () {
@@ -29,7 +30,7 @@ export default function Message () {
           renderItem={({item}) => (
             <MessageSingleItem
               onPress={() =>
-                alert("fdfd")
+                router.push("/chatScreen")
               }
               isHighlighted={[1, 2, 3, 6].includes(item)}
               name={''}
