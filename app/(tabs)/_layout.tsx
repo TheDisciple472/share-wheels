@@ -14,8 +14,8 @@ export default function TabsLayout() {
         bottom : scale(25),
         borderRadius : scale(38),
         marginHorizontal : scale(12),
-        // flexDirection : "row",
-        // justifyContent : "center"
+        flexDirection : "row",
+        // justifyContent : "center",
         alignItems : "center"
       },
       tabBarShowLabel :  false

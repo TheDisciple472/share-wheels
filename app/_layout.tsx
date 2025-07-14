@@ -56,6 +56,24 @@ export default function RootLayout() {
           headerShown : false
         }}
       />
+      <Stack.Screen 
+        name="reviewScreen"
+        options={{
+          headerShown : false
+        }}
+      />
+      <Stack.Screen 
+        name="bookingScreen"
+        options={{
+          headerShown : false
+        }}
+      />
+      <Stack.Screen 
+        name="paymentScreen"
+        options={{
+          headerShown : false
+        }}
+      />
     </Stack>
   );
 }

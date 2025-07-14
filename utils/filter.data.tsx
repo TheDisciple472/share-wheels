@@ -1,3 +1,9 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import React from "react";
+import { scale } from "@/theme/scale";
+
+
+
 export const data = [
   {
     id: 1,
@@ -82,5 +88,35 @@ export const FuelType = [
     id: 4,
     label: 'Hybrid',
     value: 'Hybrid',
+  },
+];
+
+interface Props  {
+  component : React.ReactNode,
+  id : number;
+  label : string;
+  value : string
+}
+
+export const genderData = [
+  {
+    id: 1,
+    label: 'Male',
+    value: 'Male',
+    component: <MaterialCommunityIcons name="human-male" size={scale(18)} />
+  },
+  {
+    id: 2,
+    label: 'Female',
+    value: 'Female',
+    component: <MaterialCommunityIcons name="human-female" size={scale(18)} />,
+  },
+  {
+    id: 3,
+    label: 'Others',
+    value: 'Others',
+    component: (
+      <MaterialCommunityIcons name="gender-male-female" size={scale(18)} />
+    ),
   },
 ];
