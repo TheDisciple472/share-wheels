@@ -8,14 +8,18 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Octicons from "@expo/vector-icons/Octicons";
 import React from "react";
+import { router } from "expo-router";
 
 type Props = {
-  title: string;
+  title?: string;
   hasBack?: boolean;
+  actionComponent ? : React.ReactNode;
 };
 
 const { logoBlack, person } = imagesPaths;
-const goBack = () => {};
+const goBack = () => {
+  router.back();
+};
 export default function Header({ title, hasBack }: Props) {
   return (
     <View style={styles.header}>
