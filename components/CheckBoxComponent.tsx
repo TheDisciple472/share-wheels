@@ -4,6 +4,7 @@ import { scale } from "@/theme/scale";
 import { colors } from "@/theme/colors";
 import { useState } from "react";
 
+
 type Props = {
   onPress: (e : boolean) => void;
   isChecked: boolean;
@@ -13,6 +14,7 @@ export default function CheckBoxComponent({ onPress, isChecked = false }: Props)
     const [checked , setChecked] = useState<boolean>(isChecked)
   return (
     <Pressable style={styles.container} onPress={()=>{
+      
         setChecked(!checked);
         onPress(!checked) 
         }}>

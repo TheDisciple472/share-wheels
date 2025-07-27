@@ -10,17 +10,15 @@ interface Props {
     onPress : (e : any) => void
 }
 
-const countries = [
-  {code: 'IN', name: 'India', flag: '🇮🇳', ph: '+91'},
-  {code: 'US', name: 'United States', flag: '🇺🇸', ph: '+1'},
-  {code: 'GB', name: 'United Kingdom', flag: '🇬🇧', ph: '+44'},
-  {code: 'FR', name: 'France', flag: '🇫🇷', ph: '+33'},
+const roles = [
+  {name : "User", flag: "👤"},
+  {name : "Vendor", flag: "🛒"},
 ];
 
 
 export default function CountryComponent ({onPress} : Props){
     const [isVisible, setIsVisible] = React.useState(false);
-  const [selectedCountry, setSelectedCountry] = React.useState(countries[0]);
+  const [selectedCountry, setSelectedCountry] = React.useState(roles[0]);
 
    return (
     <View>
@@ -36,7 +34,7 @@ export default function CountryComponent ({onPress} : Props){
       <BottomSheet visible={isVisible} setVisible={setIsVisible}>
         <View style={styles.bottomSheet}>
           <FlatList
-            data={countries}
+            data={roles}
             showsVerticalScrollIndicator={false}
             renderItem={({item}) => (
               <Pressable

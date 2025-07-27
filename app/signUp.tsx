@@ -4,19 +4,52 @@ import { colors } from "@/theme/colors";
 import { FontSize } from "@/theme/font-size";
 import { scale } from "@/theme/scale";
 import InputComponent from "@/components/InputComponent";
+import CountryComponent from "@/components/CountryComponent";
 import ButtonComponent from "@/components/ButtonComponent";
 import { typography } from "@/theme/typography";
 import { useState } from "react";
+import { Alert } from "react-native"; // Add this for error/success messages
 import { renderMarginTop } from "../utils/ui-utils";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
+import { Picker } from "@react-native-picker/picker"; // Import Picker
 
 const { logoBlack } = imagesPaths;
 const route = useRouter();
 
 export default function SignUp() {
   const { isSecure, setIsSecure } = useSignup();
+
+  // 1. State for form fields
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [location, setLocation] = useState("");
+  const [phone, setPhone] = useState(""); // <-- Add phone state
+  const [role, setRole] = useState<"USER" | "VENDOR">("USER");
+  const phoneAdress = process.env.EXPO_PUBLIC_IP_ADDRESS
+  // 2. Function to handle sign up
+  const handleSignUp = async () => {
+    try {
+      const response = await fetch(`http://${phoneAdress}:3000/api/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName, email, password, location, phone, role }), // <-- Add phone here
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Signup failed");
+      }
+
+      // Success: navigate or show success message
+      Alert.alert("Success", "Account created successfully!");
+      route.push("/signIn"); // Optionally navigate to login
+    } catch (err: any) {
+      Alert.alert("Error", err.message);
+    }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -28,20 +61,54 @@ export default function SignUp() {
         <Text style={[styles.textStyle, styles.textCenter]}>Sign Up</Text>
       </View>
       <View style={styles.inputContainer}>
-        <InputComponent placeholder={"Full Name"} />
-        <InputComponent placeholder={"Email Address"} />
+        <InputComponent
+          placeholder={"Full Name"}
+          value={fullName}
+          onChangeInput={setFullName}
+        />
+        <InputComponent
+          placeholder={"Email Address"}
+          value={email}
+          onChangeInput={setEmail}
+        />
         <InputComponent
           isSecured
           secureTextEntry={!isSecure}
           placeholder={"Password"}
+          value={password}
+          onChangeInput={setPassword}
           onPress={() => setIsSecure(!isSecure)}
         />
-        <InputComponent placeholder={"Location"} />
+        <InputComponent
+          placeholder={"Location"}
+          value={location}
+          onChangeInput={setLocation}
+        />
+        <InputComponent
+          placeholder={"Phone Number"} // <-- Add phone input
+          value={phone}
+          onChangeInput={setPhone}
+          keyboardType="phone-pad"
+        />
+        {/* Add a Picker for role selection */}
+        <View style={styles.pickerContainer}>
+          <Text style={styles.label}>Select Role:</Text>
+            <Picker
+            selectedValue={role}
+            onValueChange={(itemValue: "USER" | "VENDOR") => setRole(itemValue)}
+            style={styles.picker}
+            >
+            <Picker.Item label="User" value="USER" />
+            <Picker.Item label="Vendor" value="VENDOR" />
+            </Picker>
+        </View>
       </View>
       {renderMarginTop(5)}
       <View style={styles.buttonContainer}>
-        <ButtonComponent text="Sign Up" textStyles={styles.buttonText} 
-        onPress={()=> route.push("/resetPassword")}
+        <ButtonComponent
+          text="Sign Up"
+          textStyles={styles.buttonText}
+          onPress={handleSignUp} // <-- Call your handler
         />
         <ButtonComponent
           text="Login"
@@ -56,14 +123,14 @@ export default function SignUp() {
         <View style={styles.orBorder} />
       </View>
       <View style={styles.buttonContainer}>
-        <ButtonComponent
+        {/* <ButtonComponent
           text="Apple pay"
           buttonStyles={styles.outlineButton}
           textStyles={styles.appleText}
           children={<MaterialIcons name="apple" size={scale(20)} />}
-        />
+        /> */}
         <ButtonComponent
-          text="Google pay"
+          text="Google"
           buttonStyles={styles.outlineButton}
           textStyles={styles.outlineButtonText}
           children={<AntDesign name="google" size={scale(20)} />}
@@ -177,6 +244,18 @@ const styles = StyleSheet.create({
   dontHaveText: {
     color: colors.placeholder,
     fontFamily: typography.regular,
+  },
+  pickerContainer: {
+    marginTop: scale(10),
+  },
+  label: {
+    fontSize: FontSize.FONT_14Px,
+    color: colors.placeholder,
+    marginBottom: scale(8),
+  },
+  picker: {
+    height: scale(50),
+    width: "100%",
   },
 });
 

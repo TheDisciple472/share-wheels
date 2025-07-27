@@ -7,9 +7,12 @@ import { useRouter } from "expo-router";
 import { Image, ImageBackground, StyleSheet, Text, View } from "react-native";
 
 export default function Index() {
+  const ipAdress = process.env.EXPO_PUBLIC_IP_ADDRESS;
   const { whiteCar, logo, overlayBg } = imagesPaths;
   const router  = useRouter();
   const goToScreenTwo = () => {
+    console.log("IP Address:", ipAdress);
+    
     router.push("/onBoardingTwo");
   }
   return (

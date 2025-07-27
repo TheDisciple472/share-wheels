@@ -35,7 +35,7 @@ export default function ImageSlider({ images }: { images: ImageSourcePropType[] 
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <Image
-            source={item}
+            source={{uri : item}}
             style={{ width, height: scale(220) }}
             resizeMode="cover"
           />

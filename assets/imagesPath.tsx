@@ -8,6 +8,7 @@ const imagesPaths = {
     person : require("./images/person.png"),
     success: require("./images/success.png"),
     tesla : require("./images/tesla.png"),
+    toyota: require("./images/toyota-wb.png"),
     car1 : require("./images/car1.png"),
     car2 : require("./images/car2.png"),
     car3 : require("./images/car3.png"),

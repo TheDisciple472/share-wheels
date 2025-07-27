@@ -9,16 +9,93 @@ import { scale } from "@/theme/scale";
 import { typography } from "@/theme/typography";
 import CarActionView from "@/view/carActionsView";
 import FilterView from "@/view/filterView";
-import { useState } from "react";
-import { View, Text, StyleSheet, FlatList, ScrollView } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, ScrollView, Alert } from "react-native";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { car1, car2, car3, car4, car5, car6 } = imagesPaths;
 const route = useRouter();
 
+const goToSearchScreen = async (id: string) => {
+  await AsyncStorage.setItem("carId", id);
+};
 
 export default function Search() {
-    const {showFilter, setShowFilter} = useSearch();
+  const { showFilter, setShowFilter } = useSearch();
+  const [cars, setCars] = useState<any[]>([]);
+  const [brands, setBrands] = useState<any[]>([]);
+
+
+const phoneAdress = process.env.EXPO_PUBLIC_IP_ADDRESS;
+  const localAddress = "10.0.2.2";
+  useEffect(() => {
+    const fetchBrands = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        Alert.alert("Error", "You need to log in first.");
+        route.push("/signIn");
+        return;
+      }
+      try {
+        const response = await fetch(`http://${phoneAdress}:3000/api/brands/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }); // Update with your actual endpoint
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || "Login failed");
+        }
+        const res = await response.json();
+        const data = res.data || [];
+        // console.log(data[0].media.thumbnail.small);
+        // Adjust based on your API response structure
+        setBrands(data);
+      } catch (error: any) {
+        Alert.alert("Error", error.message);
+      }
+    };
+
+    fetchBrands();
+  }, []);
+
+  useEffect(() => {
+    const fetchCars = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        Alert.alert("Error", "You need to log in first.");
+        route.push("/signIn");
+        return;
+      }
+      try {
+        const carResponse = await fetch(
+          `http://${phoneAdress}:3000/api/cars/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        ); // Update with your actual endpoint
+        if (!carResponse.ok) {
+          const error = await carResponse.json();
+          throw new Error(error.message || "Login failed");
+        }
+        const res = await carResponse.json();
+        const data = res.data || [];
+        console.log(data[0].media.thumbnail.small);
+        const images = 
+        // Adjust based on your API response structure
+        setCars(data);
+      } catch (error: any) {
+        Alert.alert("Error", error.message);
+      }
+    };
+
+    fetchCars();
+  }, []);
+
+
   return (
     <View style={styles.container}>
       <HeaderComponent title="Search" hasBack />
@@ -30,18 +107,21 @@ export default function Search() {
         <View style={[styles.showCase, styles.p18]}>
           <FlatList
             showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
             horizontal
-            data={[1, 2, 3, 4, 5]}
-            renderItem={({ item }) => (
-              <CarBrandComponent
-                item={item}
-                text="Tesla"
-                isHorizontal
-                isSelected={1}
-                
-              />
-            )}
+            data={brands}
+            keyExtractor={(item) => item.id?.toString() || item.name}
+            renderItem={({ item }) => {
+              // const features = JSON.stringify(item.features);
+              return (
+                <CarBrandComponent
+                  text={item.name}
+                  isSelected={1}
+                  isHorizontal
+                  image={item.media.thumbnail.small}
+                  // seats = {features.hp}
+                />
+              );
+            }}
           />
         </View>
         <View style={[styles.showCaseCars, styles.p18]}>
@@ -50,18 +130,31 @@ export default function Search() {
             <Text style={styles.viewAll}>View All</Text>
           </View>
           <View style={styles.flexRow}>
-            <CarComponent bottomActions={<CarActionView />} imageSource={car1}
-            onPress={()=> route.push("/carScreen")}
+            <FlatList
+              data={cars}
+              keyExtractor={(item) => item.id?.toString() || item.name}
+              renderItem={({ item }) => {
+                const features = JSON.parse(item.features);
+                // console.log(features.seats);
+
+                return (
+                  <CarComponent
+                    imageSource={item.media.thumbnail.small}
+                    name={item.name}
+                    location={item.location.city}
+                    seats={features.seats}
+                    price={item.price}
+                    onPress={async ()=>{
+                      await AsyncStorage.setItem("carId", item.id);
+                      await AsyncStorage.setItem("carPrice", item.price.toString());
+                      route.push("/carScreen");
+                    }}
+                  />
+                );
+              }}
+              numColumns={2}
+              columnWrapperStyle={styles.flatListContentContainer}
             />
-            <CarComponent bottomActions={<CarActionView />} imageSource={car2}/>
-          </View>
-          <View style={styles.flexRow}>
-            <CarComponent bottomActions={<CarActionView />} imageSource={car3}/>
-            <CarComponent bottomActions={<CarActionView />} imageSource={car4}/>
-          </View>
-          <View style={styles.flexRow}>
-            <CarComponent bottomActions={<CarActionView />} imageSource={car5}/>
-            <CarComponent bottomActions={<CarActionView />} imageSource={car6}/>
           </View>
         </View>
         <FilterView visible={showFilter} setVisible={setShowFilter} />
@@ -218,6 +311,10 @@ const styles = StyleSheet.create({
   },
   btnTextStyle: {
     fontSize: FontSize.FONT_12Px,
+  },
+  flatListContentContainer: {
+    justifyContent: "space-between",
+    marginBottom: scale(20), // Add bottom margin to avoid overlap with the next section
   },
 });
 

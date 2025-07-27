@@ -4,7 +4,11 @@ import { scale } from "@/theme/scale";
 import { typography } from "@/theme/typography";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { View, StyleSheet, Pressable, Text } from "react-native";
-export default function FeatureComponent() {
+
+type Props = {
+  seats? : number; 
+}
+export default function FeatureComponent({ seats }: Props) {
   return (
     <Pressable style={styles.featureContainer}>
       <Pressable style={styles.featureBorder}>
@@ -16,7 +20,7 @@ export default function FeatureComponent() {
       </Pressable>
       <View>
         <Text style={styles.featureTitle}>Capacity</Text>
-        <Text style={styles.featureInfo}>5 Seats</Text>
+        <Text style={styles.featureInfo}>{seats} Seats</Text>
       </View>
     </Pressable>
   );
@@ -26,11 +30,12 @@ const styles = StyleSheet.create({
   featureContainer: {
     backgroundColor: colors.outlineButtonBg,
     height: scale(118),
-    flex: 1,
+    // flex: 1,
     borderRadius: scale(10),
     padding: scale(8),
     paddingBottom: scale(12),
     justifyContent: "space-between",
+    width: scale(100),
   },
   featureTitle: {
     color: colors.placeholder,

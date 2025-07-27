@@ -15,39 +15,50 @@ import {
   Text,
   Pressable,
   ImageSourcePropType,
+  Dimensions,
 } from "react-native";
 
 type Props = {
   bottomActions?: React.ReactNode;
-  imageSource: ImageSourcePropType;
+  imageSource: string;
   onPress?: () => void;
+  location? : string;
+  rating?: number;
+  seats?: number;
+  price?: string;
+  name? : string
 };
 
 export default function CarComponent({
   bottomActions,
   imageSource,
   onPress,
+  location,
+  rating,
+  seats,
+  price,
+  name,
 }: Props) {
   return (
     <Pressable style={styles.container} onPress={onPress}>
-      <Pressable style={styles.favContainer}>
+      {/* <Pressable style={styles.favContainer}>
         <MaterialCommunityIcons name={"cards-heart-outline"} size={scale(18)} />
-      </Pressable>
+      </Pressable> */}
       <View style={styles.carBackground}>
         <Image
-          source={imageSource}
+          source={{uri : imageSource}}
           resizeMode="contain"
           style={styles.carImage}
         />
       </View>
       <View style={styles.textContainer}>
         {renderMarginBottom(4)}
-        <Text style={styles.title}>Ferrari</Text>
-        {renderMarginBottom(4)}
+        <Text style={styles.title}>{name}</Text>
+        {/* {renderMarginBottom(4)}
         <View style={styles.flex}>
-          <Text style={styles.title}>5.0</Text>
+          <Text style={styles.title}>{rating}</Text>
           <MaterialIcons name="star" size={scale(20)} color={colors.star} />
-        </View>
+        </View> */}
         {renderMarginBottom(4)}
         <View style={[styles.flex]}>
           <MaterialIcons
@@ -55,7 +66,7 @@ export default function CarComponent({
             size={scale(16)}
             color={colors.gray}
           />
-          <Text style={styles.text}>Douala</Text>
+          <Text style={styles.text}>{location}</Text>
         </View>
         {renderMarginBottom(6)}
         {bottomActions ? (
@@ -68,14 +79,12 @@ export default function CarComponent({
                 size={scale(16)}
                 color={colors.gray}
               />
-              <Text style={[styles.text, styles.textBold]}>4 Seats</Text>
+              <Text style={[styles.text, styles.textBold]}>{seats} Seats</Text>
             </View>
             <View style={[styles.flex]}>
-              <Pressable style={styles.dollarContainer}>
-                <Fontisto name="dollar" size={scale(8)} color={colors.gray} />
-              </Pressable>
+              
               <Text style={[styles.text, styles.textBold, styles.price]}>
-                $200/Day
+                {price} XAF/D
               </Text>
             </View>
           </View>
@@ -85,18 +94,25 @@ export default function CarComponent({
   );
 }
 
+const { width: screenWidth } = Dimensions.get('window');
+const SCREEN_HORIZONTAL_PADDING = scale(16); // Adjust this if your overall screen has different padding
+const COLUMN_GAP = scale(14);
+const calculatedCarComponentWidth = (screenWidth - (2 * SCREEN_HORIZONTAL_PADDING) - COLUMN_GAP) / 2;
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.white,
     borderWidth: 1,
     borderColor: colors.border,
     borderRadius: scale(16),
-    maxWidth: "50%",
+    width: calculatedCarComponentWidth,
     paddingBottom: scale(10),
   },
   carImage: {
     height: scale(100),
     width: scale(160),
+    maxWidth: "100%",
+    maxHeight: "100%",
   },
   title: { fontFamily: typography.semiBold, fontSize: FontSize.FONT_14Px },
   flex: {

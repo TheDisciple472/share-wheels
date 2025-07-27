@@ -14,13 +14,14 @@ type Props = {
   title?: string;
   hasBack?: boolean;
   actionComponent ? : React.ReactNode;
+  onPress? : () => void
 };
 
 const { logoBlack, person } = imagesPaths;
 const goBack = () => {
   router.back();
 };
-export default function Header({ title, hasBack, actionComponent }: Props) {
+export default function HeaderComponent({ title, hasBack, actionComponent, onPress }: Props) {
   return (
     <View style={styles.header}>
       <View style={styles.flexRow}>
@@ -48,6 +49,7 @@ export default function Header({ title, hasBack, actionComponent }: Props) {
               name="dots-horizontal"
               size={scale(26)}
               color={colors.black}
+              onPress={onPress}
             />
           </Pressable>
         ) : (

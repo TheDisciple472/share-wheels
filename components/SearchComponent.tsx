@@ -20,7 +20,7 @@ export default function SearchComponent({ onFilterPress }: Props) {
         containerStyle={styles.inputContainer}
         placeholder="Search your dream car....."
       />
-      <Pressable
+      {/* <Pressable
         onPress={onFilterPress}
         style={[styles.borderRound, styles.wh]}
       >
@@ -29,7 +29,7 @@ export default function SearchComponent({ onFilterPress }: Props) {
           size={scale(26)}
           color={colors.gray}
         />
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 }

@@ -41,7 +41,7 @@ export default function Index() {
                 Let's get started on your journey
             </Text>
             </View>
-        <Button text="Get Started" buttonStyles={styles.buttonStyle}  onPress={goToSignIn}/>
+        <Button text="Continue" buttonStyles={styles.buttonStyle}  onPress={goToSignIn}/>
         </View>
       </ImageBackground>
     </ImageBackground>

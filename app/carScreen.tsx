@@ -12,7 +12,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import Feather from "@expo/vector-icons/Feather";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import imagesPaths from "@/assets/imagesPath";
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   View,
   StyleSheet,
@@ -23,12 +23,14 @@ import {
   ScrollView,
   Image,
   ImageSourcePropType,
+  Alert,
 } from "react-native";
 import ButtonComponent from "@/components/ButtonComponent";
 import FeatureComponent from "@/components/FeatureComponent";
 import ReviewComponent from "@/components/ReviewComponent";
 import ImageSlider from "@/components/ImageSlider";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const { car7, car8, car9 } = imagesPaths;
 
@@ -36,19 +38,70 @@ export default function CarScreen() {
   const route = useRouter()
   const { person } = imagesPaths;
   const data = [car7, car8, car9];
+  const phoneAdress = process.env.EXPO_PUBLIC_IP_ADDRESS;
+  const [cars, setCars] = useState<any>([]);
+  const [images, setImages] = useState<any[]>([]);
+  const [seats, setSeats] =useState<number>();
+  const [price, setPrice] = useState<number>();
+  const [name, setName] = useState<string>("")
+  const localAddress = "10.0.2.2";
+  useEffect(() => {
+      const fetchCars = async () => {
+        const token = await AsyncStorage.getItem("token");
+        const carId = await AsyncStorage.getItem("carId");
+        if (!token) {
+          Alert.alert("Error", "You need to log in first.");
+          route.push("/signIn");
+          return;
+        }
+        try {
+          console.log(carId);
+          
+          const carResponse = await fetch(
+            `http://${phoneAdress}:3000/api/cars/car/${carId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          ); // Update with your actual endpoint
+          if (!carResponse.ok) {
+            const error = await carResponse.json();
+            throw new Error(error.message || "Could not fetch car successfully");
+          }
+          const res = await carResponse.json();
+          console.log(res.data.price);
+          setPrice(res.data.price);
+          setName(res.data.owner.fullName);
+          const data = res.data || [];
+          console.log(data.media.thumbnail.small);
+          const images =[data.media.thumbnail.medium, data.media.thumbnail.small, data.media.thumbnail.large];
+          const features = JSON.parse(data.features);
+          setSeats(features.seats);
+          // Adjust based on your API response structure
+          setImages(images);
+          setCars(data);
+        } catch (error: any) {
+          Alert.alert("Error", error.message);
+        }
+      };
+  
+      fetchCars();
+    }, []);
+  
   return (
     <View style={styles.container}>
       <HeaderComponent title="Car Details" hasBack />
       <ScrollView showsVerticalScrollIndicator={false} style={styles.flex}>
-        <ImageSlider images={data} />
+        <ImageSlider images={images} />
         {renderMarginTop(12)}
         <View style={styles.main}>
           <View>
             <View style={styles.titleContainer}>
               <View style={styles.flex}>
-                <Text style={styles.title}>Tesla Model S</Text>
+                <Text style={styles.title}>{cars?.name || cars[0]?.name || "Car Name"}</Text>
                 <Text style={styles.text}>
-                  A car with high specs that are rented ot an affordable price
+                  {cars.subInfo}
                 </Text>
               </View>
               <View>
@@ -69,7 +122,7 @@ export default function CarScreen() {
             <View style={styles.profile}>
               <View style={styles.cg14}>
                 <Image source={person} style={styles.person} />
-                <Text style={styles.ownerName}>John Doe</Text>
+                <Text style={styles.ownerName}>{name}</Text>
               </View>
               <View style={styles.cg14}>
                 <Pressable style={styles.iconBorder}>
@@ -89,16 +142,18 @@ export default function CarScreen() {
               <Text style={styles.title}>Car Features</Text>
               {renderMarginTop(12)}
               <View style={styles.cg14}>
-                <FeatureComponent />
-                <FeatureComponent />
-                <FeatureComponent />
+                <FeatureComponent 
+                  seats={seats}
+                />
+                {/* <FeatureComponent />
+                <FeatureComponent /> */}
               </View>
-              {renderMarginTop(12)}
+              {/* {renderMarginTop(12)}
               <View style={styles.cg14}>
                 <FeatureComponent />
                 <FeatureComponent />
                 <FeatureComponent />
-              </View>
+              </View> */}
             </View>
             {renderMarginTop(18)}
             <View style={styles.profile}>

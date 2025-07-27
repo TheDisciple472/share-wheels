@@ -15,6 +15,7 @@ export type Props = {
   leftAction? : React.ReactNode,
   containerStyle? : ViewStyle,
   keyboardType? : KeyboardTypeOptions | undefined 
+  value? : string;
 };
 const { eye } = imagesPaths;
 
@@ -31,7 +32,8 @@ export default function InputComponent({
   isSecured,
   containerStyle,
   leftAction,
-  keyboardType
+  keyboardType,
+  value
 }: Props) {
   return (
     <View style={[styles.container, containerStyle]}>
@@ -41,6 +43,8 @@ export default function InputComponent({
         placeholderTextColor={colors.placeholder}
         secureTextEntry={secureTextEntry}
         onChangeText={onChangeInput}
+        value={value}
+        
       />
       {leftAction}
 

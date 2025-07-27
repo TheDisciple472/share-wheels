@@ -4,6 +4,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { scale } from "@/theme/scale";
 
+ // This should be dynamically set based on user role
+
 export default function TabsLayout() {
   return(
     <Tabs
@@ -49,7 +51,7 @@ export default function TabsLayout() {
         headerShown : false
       }}
     />
-    <Tabs.Screen
+    {/* <Tabs.Screen
       name="message"
       options={{
         title: "Message",
@@ -61,8 +63,8 @@ export default function TabsLayout() {
         ), 
         headerShown : false
       }}
-    />
-    <Tabs.Screen
+    /> */}
+    {/* <Tabs.Screen
       name="notification"
       options={{
         title: "Notification",
@@ -74,14 +76,14 @@ export default function TabsLayout() {
         ), 
         headerShown : false
       }}
-    />
+    /> */}
     <Tabs.Screen
-      name="account"
+      name="dashboard"
       options={{
-        title: "Account",
+        title: "dashboard",
         tabBarIcon: ({ color, focused }) => (
           <MaterialIcons
-            name={focused ? "person-outline" : "person-outline"}
+            name={focused ? "space-dashboard" : "space-dashboard"}
             color={color} size={22}
           />
         ), 

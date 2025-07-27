@@ -2,7 +2,7 @@ import { colors } from "@/theme/colors";
 import { FontSize } from "@/theme/font-size";
 import { scale } from "@/theme/scale";
 import { typography } from "@/theme/typography";
-import { View, StyleSheet, Text, Pressable, Image } from "react-native";
+import { View, StyleSheet, Text, Pressable, Image, ImageSourcePropType } from "react-native";
 import imagesPaths from "@/assets/imagesPath";
 import { renderMarginTop } from "@/utils/ui-utils";
 
@@ -15,7 +15,7 @@ type Props = {
   item?: number;
 };
 
-const { tesla } = imagesPaths;
+// const { tesla,toyota } = imagesPaths;
 
 export default function CarBrandComponent({
   text,
@@ -32,9 +32,8 @@ export default function CarBrandComponent({
         <View style={styles.brand}>
           <Image
             resizeMode="contain"
-            source={tesla}
+            source={{uri : image}}
             style={styles.brandImage}
-            
           />
         </View>
         {/* {renderMarginTop(4)} / */}
@@ -75,8 +74,8 @@ const createStyles = (
       marginRight: isHorizontal ? scale(6) : 0,
     },
     brandImage: {
-      height: isHorizontal ? scale(18) : scale(28),
-      width: isHorizontal ? scale(18) : scale(28),
+      height: isHorizontal ? scale(18) : scale(40),
+      width: isHorizontal ? scale(18) : scale(40),
       textAlign: "center",
     },
   });

@@ -2,7 +2,7 @@ import imagesPaths from "@/assets/imagesPath";
 import { colors } from "@/theme/colors";
 import { FontSize } from "@/theme/font-size";
 import { scale } from "@/theme/scale";
-import { View, StyleSheet, Text, Image, ScrollView } from "react-native";
+import { View, StyleSheet, Text, Image, ScrollView, Alert } from "react-native";
 import InputComponent from "@/components/InputComponent";
 import CheckBoxComponent from "@/components/CheckBoxComponent";
 import ButtonComponent from "@/components/ButtonComponent";
@@ -10,13 +10,63 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { typography } from "@/theme/typography";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const route = useRouter();
 const { logoBlack } = imagesPaths;
 export default function SignIn() {
-  const {isSecure, setIsSecure} = useSignin();
+  const { isSecure, setIsSecure } = useSignin();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        route.push("/(tabs)/homeScreen");
+      }
+    }
+    checkLoginStatus(); // Check login status on component mount
+  },
+    []);
+
+  const handleLogin = async () => {
+    try {
+      const phoneAdress = process.env.EXPO_PUBLIC_IP_ADDRESS
+      const localAddress = "10.0.2.2";
+      const response = await fetch(`http://${phoneAdress}:3000/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Login failed");
+      }
+
+      const res = await response.json();
+      const token = res.data.token;
+      const role = res.data.user.role;
+      const name = res.data.user.fullName;
+      console.log("name : ", name);
+      console.log(typeof role);
+      
+      await AsyncStorage.setItem("token", token); // Store the token for future requests
+      await AsyncStorage.setItem("role", role); // Store the token for future requests
+      await AsyncStorage.setItem("name", res.data.user.fullName); // Store the token for future requests
+      await AsyncStorage.setItem("email", res.data.user.email); // Store the token for future requests
+      await AsyncStorage.setItem("phone", res.data.user.phone); // Store the token for future requests
+      
+      Alert.alert("Success", "Login successful!");
+      route.push("/(tabs)/homeScreen");
+    } catch (err: any) {
+      Alert.alert("Error", err.message);
+    }
+  };
+
   const handleChangeInput = (event: string) => {
     console.log(event);
   };
@@ -31,13 +81,18 @@ export default function SignIn() {
         <Text style={styles.textStyle}>Ready to hit the road</Text>
       </View>
       <View style={styles.inputContainer}>
-        <InputComponent placeholder="Email" onChangeInput={handleChangeInput} />
+        <InputComponent
+          placeholder="Email"
+          value={email}
+          onChangeInput={setEmail}
+        />
         <InputComponent
           isSecured
           placeholder="Password"
-          onChangeInput={handleChangeInput}
+          value={password}
+          onChangeInput={setPassword}
           secureTextEntry={!isSecure}
-          onPress={()=> setIsSecure(!isSecure)}
+          onPress={() => setIsSecure(!isSecure)}
         />
       </View>
       <View style={styles.colG2}>
@@ -51,33 +106,37 @@ export default function SignIn() {
 
           <Text style={styles.textRemember}>Remember Me</Text>
         </View>
-        <Text
-          onPress={()=> route.push("/resetPassword")}
-        >Forgot Password</Text>
+        <Text onPress={() => route.push("/resetPassword")}>
+          Forgot Password
+        </Text>
       </View>
-        <View style={styles.buttonContainer}>
-          <ButtonComponent text="Login" textStyles={styles.buttonText} />
-          <ButtonComponent
-            text="Sign Up"
-            buttonStyles={styles.outlineButton}
-            textStyles={styles.outlineButtonText}
-            onPress={() => route.push("/signUp")}
-          />
-        </View>
+      <View style={styles.buttonContainer}>
+        <ButtonComponent
+          text="Login"
+          textStyles={styles.buttonText}
+          onPress={handleLogin} // <-- Use your login handler
+        />
+        <ButtonComponent
+          text="Sign Up"
+          buttonStyles={styles.outlineButton}
+          textStyles={styles.outlineButtonText}
+          onPress={() => route.push("/signUp")}
+        />
+      </View>
       <View style={styles.borderContainer}>
         <View style={styles.orBorder} />
         <Text>Or</Text>
         <View style={styles.orBorder} />
       </View>
       <View style={styles.buttonContainer}>
-        <ButtonComponent
-          text="Apple pay"
+        {/* <ButtonComponent
+          text="Apple"
           buttonStyles={styles.outlineButton}
           textStyles={styles.appleText}
           children={<MaterialIcons name="apple" size={scale(20)} />}
-        />
+        /> */}
         <ButtonComponent
-          text="Google pay"
+          text="Google"
           buttonStyles={styles.outlineButton}
           textStyles={styles.outlineButtonText}
           children={<AntDesign name="google" size={scale(20)} />}
@@ -190,8 +249,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.regular,
   },
 });
-
-
 
 interface ISiginInProps {
   isSecure: boolean;
